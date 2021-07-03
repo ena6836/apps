@@ -2,31 +2,61 @@
 <html>
 <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>お絵描きO</title>
 </head>
 <body>
-    <div id='canvas_field', style='display:none;'>
+    <img id="image_show", style='float:left;'>
+    <div id='canvas_field', style='display:none; float:left;'>
         <canvas
           id="draw-area"
           width="400px"
           height="400px"
           style="border: 1px solid #000000;"></canvas>
     </div>
+    <div id="all_clear", style='display:none; clear:both;'>
+        <button id="clear-button">全消し</button>
+    </div>
+    <div id='start'>
     <button onclick="showImage()">開始</button>
+    </div>
     <br>
-    <img id="image_show">
+    <div id="finish", style='display:none;'>
+        <button onclick="finish()">完了</button>
+    </div>
+    <div id="reload", style='display:none; clear:both;'>
+    <br>
+    <button onclick="reload()">次へ</button>
+    </div>
     <script type="text/javascript">
         time_show = 5000;
         // img要素を取得する
         var img = document.getElementById("image_show");
 
+        function reload(){
+            document.location.reload();
+        }
+
         function showImage() {
             img.src = '{{ MEDIA_URL }}{{images.picture}}'
+            document.getElementById('start').style.display = 'none';
             window.setTimeout(function(){
                 document.getElementById('image_show').style.display = 'none';
                 document.getElementById('canvas_field').style.display = 'block';
+                document.getElementById('all_clear').style.display = 'block';
+                document.getElementById('reload').style.display = 'block';
+                document.getElementById('finish').style.display = 'block';
             }, time_show)
         }
+
+        function finish(){
+            document.getElementById('finish').style.display = 'none';
+            document.getElementById('all_clear').style.display = 'none';
+            document.getElementById('image_show').style.display = 'block';
+        }
     </script>
+    {% load static %}
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
