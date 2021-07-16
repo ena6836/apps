@@ -7,7 +7,9 @@
     <title>お絵描きO</title>
 </head>
 <body>
-    <img id="image_show", style='float:left;'>
+    <div, style='float:left;'>
+    <img id="image_show">
+    </div>
     <div id='canvas_field', style='display:none; float:left;'>
         <canvas
           id="draw-area"
@@ -22,6 +24,7 @@
     <button onclick="showImage()">開始</button>
     </div>
     <br>
+     
     <div id="finish", style='display:none;'>
         <button onclick="finish()">完了</button>
     </div>
@@ -29,6 +32,17 @@
     <br>
     <button onclick="reload()">次へ</button>
     </div>
+
+    <br>
+    <br>
+    <div id='del', style='display:none;'>
+        <form action="del_image" method="POST" >
+            {% csrf_token %}
+            <a href="{% url 'oekaki:delete' images.pk %}">画像を削除</a>
+        </form>
+        </div>
+    <br>
+
     <script type="text/javascript">
         time_show = 5000;
         // img要素を取得する
@@ -41,6 +55,7 @@
         function showImage() {
             img.src = '{{ MEDIA_URL }}{{images.picture}}'
             document.getElementById('start').style.display = 'none';
+            document.getElementById('del').style.display = 'block';
             window.setTimeout(function(){
                 document.getElementById('image_show').style.display = 'none';
                 document.getElementById('canvas_field').style.display = 'block';
